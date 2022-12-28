@@ -36,4 +36,4 @@ jobs:
     - name: Test with pytest
       run: |
         cd deployment
-        bash launch-test.sh
+        bash launch-tests.sh
