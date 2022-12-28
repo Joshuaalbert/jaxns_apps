@@ -1,0 +1,10 @@
+git+https://www.github.com/Joshuaalbert/jaxns.git@2.0-prep
+jax
+jaxlib
+etils
+typing_extensions
+matplotlib
+numpy
+pytest
+scipy
+tensorflow_probability
