@@ -28,13 +28,13 @@ jobs:
         python -m pip install flake8 pytest
         pip install -r requirements.txt
         pip install -r gaussian_processes/requirements.txt
-        pip install gaussian_processes
+        pip install ./gaussian_processes
         pip install -r bayes_opt/requirements.txt
-        pip install bayes_opt
+        pip install ./bayes_opt
         pip install -r global_opt/requirements.txt
-        pip install global_opt
+        pip install ./global_opt
         pip install -r fourier/requirements.txt
-        pip install fourier
+        pip install ./fourier
 #    - name: Lint with flake8
 #      run: |
 #        # stop the build if there are Python syntax errors or undefined names
