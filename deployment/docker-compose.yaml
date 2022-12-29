@@ -1,0 +1,12 @@
+version: "3"
+services:
+  tests:
+    image: jaxns_apps:local
+    container_name: jaxns_apps
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    env_file:
+      - local.env
+    volumes:
+      - /dev/shm:/dev/shm
