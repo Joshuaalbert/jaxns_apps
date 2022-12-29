@@ -8,3 +8,4 @@ numpy
 pytest
 scipy
 tensorflow_probability
+Cython
