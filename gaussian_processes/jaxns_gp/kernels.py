@@ -1,7 +1,6 @@
 import jax.numpy as jnp
 
 from jaxns.internals.linalg import squared_norm
-from jaxns.modules.gaussian_process.utils import product_log
 
 
 class Kernel(object):

@@ -11,7 +11,6 @@ from jax import tree_map
 from jax._src.scipy.linalg import solve_triangular
 from jax.lax import cummax
 from jax.scipy.special import ndtr
-
 from jaxns import marginalise_static
 from jaxns.nested_sampling.model import Model
 from jaxns.nested_sampling.nested_sampler import ExactNestedSampler
@@ -28,19 +27,32 @@ tfpb = tfp.bijectors
 def log_normal(x, mean, cov):
     L = jnp.linalg.cholesky(cov)
     # U, S, Vh = jnp.linalg.svd(cov)
-    log_det = jnp.sum(jnp.log(jnp.diag(L)))  # jnp.sum(jnp.log(S))#
+    log_det = jnp.sum(jnp.log(jnp.diag(L)))  # jnp.sum(jnp.log(S))
     dx = x - mean
     dx = solve_triangular(L, dx, lower=True)
     # U S Vh V 1/S Uh
     # pinv = (Vh.T.conj() * jnp.where(S!=0., jnp.reciprocal(S), 0.)) @ U.T.conj()
     maha = dx @ dx  # dx @ pinv @ dx#solve_triangular(L, dx, lower=True)
-    log_likelihood = -0.5 * x.size * jnp.log(2. * jnp.pi) \
-                     - log_det \
-                     - 0.5 * maha
+    log_likelihood = -0.5 * x.size * jnp.log(2. * jnp.pi) - log_det - 0.5 * maha
     return log_likelihood
 
 
 def build_aquisition(U, Y, kernel, sigma, lengthscale, uncert):
+    """
+    Builds the aquisition function.
+
+    Args:
+        U:
+        Y:
+        kernel:
+        sigma:
+        lengthscale:
+        uncert:
+
+    Returns:
+
+    """
+
     def f(x):
         return x * ndtr(x) + jnp.exp(-0.5 * x ** 2) / jnp.sqrt(2. * jnp.pi)
 
@@ -236,6 +248,9 @@ class BayesianOptimiser(object):
     def search_U_top1(self, key, U, Y, samples, log_dp_mean, U_mean, U_scale):
         key1, key2 = random.split(key, 2)
         aquisition = build_marginalised_aquisition(key1, U, Y, self.kernel, samples, log_weights=log_dp_mean)
+
+        def prior_model() -> PriorModelGen:
+            U =
 
         with PriorChain() as search_prior_chain:
             # we'll effectively place no prior on the parameters, other than requiring them to be within [-10,10]

@@ -4,9 +4,6 @@ from typing import NamedTuple
 import numpy as np
 from jax import numpy as jnp, tree_map
 
-from jaxns.internals.maps import dict_multimap
-from jaxns.modules.optimisation.types import GlobalOptimiserResults
-
 logger = logging.getLogger(__name__)
 
 

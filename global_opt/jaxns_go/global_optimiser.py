@@ -9,11 +9,6 @@ from jaxns.internals.log_semiring import LogSpace
 from jaxns.internals.maps import prepare_func_args
 from jaxns.internals.maps import replace_index
 from jaxns.internals.types import Reservoir, float_type, int_type
-from jaxns.modules.optimisation.termination import termination_condition
-from jaxns.modules.optimisation.types import GlobalOptimiserState, GlobalOptimiserResults
-from jaxns.modules.optimisation.utils import summary
-from jaxns.nested_sampler.nested_sampling import build_get_sample, sample_goal_distribution
-from jaxns.prior_transforms import PriorChain
 
 logger = logging.getLogger(__name__)
 
@@ -458,3 +453,9 @@ class GlobalOptimiser(object):
                                          log_L_max=log_L_max,
                                          sample_L_max=sample_L_max)
         return results
+
+
+def sort_reservoir(reservoir: Reservoir) -> Reservoir:
+    idx_sort = jnp.lexsort((reservoir.log_L_constraint, reservoir.log_L_samples))
+    reservoir = tree_map(lambda x: x[idx_sort], reservoir)
+    return reservoir
